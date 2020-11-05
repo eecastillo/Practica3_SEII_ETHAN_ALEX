@@ -229,6 +229,10 @@
 #define KEY_RIGHTALT 0xE6U
 #define KEY_RIGHT_GUI 0xE7U
 
+/* Aux defines */
+#define START 0x00
+
+
 typedef enum{run, ready}f_status;
 
 
