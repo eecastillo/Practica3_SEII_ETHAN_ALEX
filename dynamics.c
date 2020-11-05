@@ -4,11 +4,23 @@
  *  Created on: Nov 4, 2020
  *      Author: eduar
  */
-
 #include "dynamics.h"
 
 
-uint8_t openPaint(uint8_t *bufferKey)
+
+uint8_t dibujar5(uint8_t *hid_buffer)
+{
+
+}
+uint8_t mouseRight_and_click(uint8_t *hid_buffer)
+{
+
+}
+uint8_t mouseLeft_and_click(uint8_t *hid_buffer)
+{
+
+}
+uint8_t keyboard_open_paint(uint8_t *bufferKey)
 {
     static int x = 0;
     static unit8_t flag = running;
@@ -31,8 +43,7 @@ uint8_t openPaint(uint8_t *bufferKey)
     }
     return flag;
 }
-
-uint8_t openNotePad(int8_t *bufferKey)
+uint8_t keyboard_open_notes(uint8_t *bufferKey)
 {
     static int x = 0;
     static uint8_t flag = running;
@@ -70,8 +81,7 @@ uint8_t openNotePad(int8_t *bufferKey)
     }
     return flag;
 }
-
-uint8_t writeTxt(uint8_t *bufferKey)
+uint8_t keyboard_write_message(uint8_t *bufferKey)
 {
     static int x = 0;
     static uint8_t flag = running;
@@ -98,7 +108,8 @@ uint8_t writeTxt(uint8_t *bufferKey)
     }
     return flag;
 }
-uint8_t copyText(uint8_t *buffferKey){
+uint8_t keyboard_copy_message(uint8_t *bufferKey)
+{
     static int x = 0;
     static uint8_t flag = running;
     static uint8_t dir step1;
