@@ -433,6 +433,11 @@ usb_status_t USB_DeviceGetHidReportDescriptor(usb_device_handle handle,
         hidReportDescriptor->buffer = g_UsbDeviceHidMouseReportDescriptor;
         hidReportDescriptor->length = USB_DESCRIPTOR_LENGTH_HID_MOUSE_REPORT;
     }
+    else if(USB_HID_KEYBOARD_INTERFACE_INDEX == hidReportDescriptor->interfaceNumber)
+    {
+    	hidReportDescriptor->buffer = g_UsbDeviceHidKeyboardReportDescriptor;
+    	hidReportDescriptor->length = USB_DESCRIPTOR_LENGTH_HID_KEYBOARD_REPORT;
+    }
     else
     {
         return kStatus_USB_InvalidRequest;
