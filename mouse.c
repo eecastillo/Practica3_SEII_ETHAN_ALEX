@@ -9,6 +9,7 @@
 #include "usb_device_config.h"
 #include "usb.h"
 #include "usb_device.h"
+#include "dynamics.h"
 
 #include "usb_device_class.h"
 #include "usb_device_hid.h"
@@ -168,6 +169,44 @@ void USB_DeviceTaskFn(void *deviceHandle)
 /* Update mouse pointer location. Draw a rectangular rotation*/
 static usb_status_t USB_DeviceHidMouseAction(void)
 {
+	estados_t current_state = get_program_state();
+	ready_t report;
+	switch(current_state)
+	{
+	case open_paint:
+		report = keyboard_open_paint(g_UsbDeviceHidMouse.buffer);
+		break;
+	case draw_5:
+		report = dibujar5(g_UsbDeviceHidMouse.buffer);
+		break;
+	case open_notes_left:
+		report = keyboard_open_notes(g_UsbDeviceHidMouse.buffer);
+		break;
+	case open_notes_right:
+		report = keyboard_open_notes(g_UsbDeviceHidMouse.buffer);
+		break;
+	case mouse_left:
+		report = mouseLeft_and_click(g_UsbDeviceHidMouse.buffer);
+		break;
+	case hello_world:
+		report = keyboard_write_message(g_UsbDeviceHidMouse.buffer);
+		break;
+	case copy_txt:
+		report = keyboard_copy_message(g_UsbDeviceHidMouse.buffer);
+		break;
+	case mouse_right:
+		report = mouseRight_and_click(g_UsbDeviceHidMouse.buffer);
+		break;
+	case paste_txt:
+		report = keyboard_paste_message(g_UsbDeviceHidMouse.buffer);
+		break;
+	}
+	if(not_ok == report)
+	{
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer,
+		                             USB_HID_MOUSE_REPORT_LENGTH);
+	}
+
     static int8_t x = 0U;
     static int8_t y = 0U;
     enum
@@ -303,6 +342,8 @@ static usb_status_t USB_DeviceCallback(usb_device_handle handle, uint32_t event,
 
 #if (defined(USB_DEVICE_CONFIG_LPCIP3511FS) && (USB_DEVICE_CONFIG_LPCIP3511FS > 0U))
 #else
+            /**Add delay*/
+            SDK_DelayAtLeastUs(5000, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
             USB_DeviceRun(g_UsbDeviceHidMouse.deviceHandle);
 #endif
 #endif
@@ -526,10 +567,14 @@ static void USB_DeviceApplicationInit(void)
     /*USB_DeviceRun could not be called here to avoid DP/DM confliction between DCD function and USB function in case
       DCD is enabled. Instead, USB_DeviceRun should be called after the DCD is finished immediately*/
 #if (defined(USB_DEVICE_CONFIG_LPCIP3511FS) && (USB_DEVICE_CONFIG_LPCIP3511FS > 0U))
+    /**Add delay*/
+    SDK_DelayAtLeastUs(5000, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
     /* Start USB device HID mouse */
     USB_DeviceRun(g_UsbDeviceHidMouse.deviceHandle);
 #endif
 #else
+    /**Add delay*/
+    SDK_DelayAtLeastUs(5000, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
     /* Start USB device HID mouse */
     USB_DeviceRun(g_UsbDeviceHidMouse.deviceHandle);
 #endif
