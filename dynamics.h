@@ -8,6 +8,9 @@
 #ifndef DYNAMICS_H_
 #define DYNAMICS_H_
 
+#include <stdint.h>
+
+
 #define CLICK 0x01
 /*Key Code*/
 #define KEY_ERRORROLLOVER 0x01U
@@ -233,7 +236,6 @@
 #define START 0x00
 
 
-typedef enum{run, ready}f_status;
 
 typedef enum{
 	open_paint,

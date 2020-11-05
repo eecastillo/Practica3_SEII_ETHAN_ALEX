@@ -11,22 +11,22 @@ estados_t g_state = open_paint;
 
 uint8_t dibujar5(uint8_t *hid_buffer)
 {
-
+return ok;
 }
 uint8_t mouseRight_and_click(uint8_t *hid_buffer)
 {
-
+return ok;
 }
 uint8_t mouseLeft_and_click(uint8_t *hid_buffer)
 {
-
+return ok;
 }
 uint8_t keyboard_open_paint(uint8_t *bufferKey)
 {
     static int x = 0;
-    static unit8_t flag = run;
+    static uint8_t flag = not_ok;
     static uint8_t dir = START;
-    static uint8_t keys_array[] = {KEY_RIGTH_GUI, KEY_P, KEY_A, KEY_I, KEY_N, KEY_T, KEY_ENTER};
+    static uint8_t keys_array[] = {KEY_RIGHT_GUI, KEY_P, KEY_A, KEY_I, KEY_N, KEY_T, KEY_ENTER};
 
     bufferKey[2] = 0;
     if(flag == 0){
@@ -37,7 +37,7 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
             x = 0;
             if(dir == 8){
                 dir = START;
-                flag = ready;
+                flag = ok;
                 bufferKey[2] = 0;
             }
         }
@@ -47,10 +47,10 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
 uint8_t keyboard_open_notes(uint8_t *bufferKey)
 {
     static int x = 0;
-    static uint8_t flag = run;
-    static first_notepad = 0;
+    static uint8_t flag = not_ok;
+    static uint8_t first_notepad = 0;
     static uint8_t dir = START;
-    statis uint8_t keys_array[] = {KEY_LEFT_GUI, KEY_N, KEY_O, KEY_T, KEY_E, KEY_P, KEY_A, KEY_D, KEY_ENTER, KEY_LEFT_GUI};
+    static uint8_t keys_array[] = {KEY_LEFT_GUI, KEY_N, KEY_O, KEY_T, KEY_E, KEY_P, KEY_A, KEY_D, KEY_ENTER, KEY_LEFT_GUI};
     bufferKey[2] = 0;
     if(flag == 0){
         x++;
@@ -74,7 +74,7 @@ uint8_t keyboard_open_notes(uint8_t *bufferKey)
                 dir = START;
                 if(first_notepad == 2)
                 {
-                    flag = ready;
+                    flag = ok;
                 }
                 bufferKey = 0;
             }
@@ -85,9 +85,9 @@ uint8_t keyboard_open_notes(uint8_t *bufferKey)
 uint8_t keyboard_write_message(uint8_t *bufferKey)
 {
     static int x = 0;
-    static uint8_t flag = run;
+    static uint8_t flag = not_ok;
     static uint8_t dir = START;
-    statis uint8_t keys_array[] = {KEY_H, KEY_O, KEY_L, KEY_A, KEY_SPACEBAR, KEY_M, KEY_U, KEY_N, KEY_D, KEY_O, KEY_LEFTCONTROL, KEY_LEFTCONTROL};
+    static uint8_t keys_array[] = {KEY_H, KEY_O, KEY_L, KEY_A, KEY_SPACEBAR, KEY_M, KEY_U, KEY_N, KEY_D, KEY_O, KEY_LEFTCONTROL, KEY_LEFTCONTROL};
 
     bufferKey[2] = 0;
     if(flag == 0){
@@ -98,11 +98,11 @@ uint8_t keyboard_write_message(uint8_t *bufferKey)
                 bufferKey[3] = KEY_A;
             }
             if(dir == 12){
-                bufferKey[3] KEY_C;
+                bufferKey[3] = KEY_C;
             }
             if(dir == 13){
                 dir = START;
-                flag = ready;
+                flag = ok;
                 bufferKey[2] = 0;
             }
         }
@@ -112,13 +112,13 @@ uint8_t keyboard_write_message(uint8_t *bufferKey)
 uint8_t keyboard_copy_message(uint8_t *bufferKey)
 {
     static int x = 0;
-    static uint8_t flag = run;
+    static uint8_t flag = not_ok;
     static uint8_t dir = START;
     static uint8_t keys_array[] = {KEY_LEFTCONTROL, KEY_ENTER};
     bufferKey[2] = 0;
     if(flag == 0){
         x++;
-        ix(x > 200){
+        if(x > 200){
             bufferKey[2] = keys_array[dir];
             dir++;
             x = 0;
@@ -127,13 +127,18 @@ uint8_t keyboard_copy_message(uint8_t *bufferKey)
             }
             if(dir == 3){
                 dir = START;
-                flag = ready;
+                flag = ok;
                 bufferKey[2] = 0;
             }
         }
     }
     return flag;
 }
+uint8_t keyboard_paste_message(uint8_t *bufferKey)
+{
+
+}
+
 estados_t get_program_state()
 {
 	return g_state;
