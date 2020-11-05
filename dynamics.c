@@ -25,7 +25,7 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
 {
     static int x = 0;
     static unit8_t flag = run;
-    static uint8_t dir = step1;
+    static uint8_t dir = START;
     static uint8_t keys_array[] = {KEY_RIGTH_GUI, KEY_P, KEY_A, KEY_I, KEY_N, KEY_T, KEY_ENTER};
 
     bufferKey[2] = 0;
@@ -36,7 +36,7 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
             dir ++;
             x = 0;
             if(dir == 8){
-                dir = step1;
+                dir = START;
                 flag = ready;
                 bufferKey[2] = 0;
             }
@@ -49,16 +49,16 @@ uint8_t keyboard_open_notes(uint8_t *bufferKey)
     static int x = 0;
     static uint8_t flag = run;
     static first_notepad = 0;
-    static uint8_t dir = step1;
+    static uint8_t dir = START;
     statis uint8_t keys_array[] = {KEY_LEFT_GUI, KEY_N, KEY_O, KEY_T, KEY_E, KEY_P, KEY_A, KEY_D, KEY_ENTER, KEY_LEFT_GUI};
     bufferKey[2] = 0;
     if(flag == 0){
         x++;
         if(x > 200){
-            if(dir == step1){
+            if(dir == START){
                 bufferKey[3] = KEY_R;
             }
-            if(dir == step9){
+            if(dir == 8){
                 if(first_notepad == 0){
                     bufferKey[3] = KEY_LEFTARROW;
                 }
@@ -71,7 +71,7 @@ uint8_t keyboard_open_notes(uint8_t *bufferKey)
             x = 0;
             if(dir == 12){
                 first_notepad++;
-                dir = step1;
+                dir = START;
                 if(first_notepad == 2)
                 {
                     flag = ready;
@@ -86,7 +86,7 @@ uint8_t keyboard_write_message(uint8_t *bufferKey)
 {
     static int x = 0;
     static uint8_t flag = run;
-    static uint8_t dir = step1;
+    static uint8_t dir = START;
     statis uint8_t keys_array[] = {KEY_H, KEY_O, KEY_L, KEY_A, KEY_SPACEBAR, KEY_M, KEY_U, KEY_N, KEY_D, KEY_O, KEY_LEFTCONTROL, KEY_LEFTCONTROL};
 
     bufferKey[2] = 0;
@@ -101,7 +101,7 @@ uint8_t keyboard_write_message(uint8_t *bufferKey)
                 bufferKey[3] KEY_C;
             }
             if(dir == 13){
-                dir = step1;
+                dir = START;
                 flag = ready;
                 bufferKey[2] = 0;
             }
@@ -113,7 +113,7 @@ uint8_t keyboard_copy_message(uint8_t *bufferKey)
 {
     static int x = 0;
     static uint8_t flag = run;
-    static uint8_t dir step1;
+    static uint8_t dir = START;
     static uint8_t keys_array[] = {KEY_LEFTCONTROL, KEY_ENTER};
     bufferKey[2] = 0;
     if(flag == 0){
@@ -126,7 +126,7 @@ uint8_t keyboard_copy_message(uint8_t *bufferKey)
                 bufferKey[3] = KEY_V;
             }
             if(dir == 3){
-                dir = step1;
+                dir = START;
                 flag = ready;
                 bufferKey[2] = 0;
             }
