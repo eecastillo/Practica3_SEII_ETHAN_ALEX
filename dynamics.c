@@ -23,7 +23,7 @@ uint8_t mouseLeft_and_click(uint8_t *hid_buffer)
 uint8_t keyboard_open_paint(uint8_t *bufferKey)
 {
     static int x = 0;
-    static unit8_t flag = running;
+    static unit8_t flag = run;
     static uint8_t dir = step1;
     static uint8_t keys_array[] = {KEY_RIGTH_GUI, KEY_P, KEY_A, KEY_I, KEY_N, KEY_T, KEY_ENTER};
 
@@ -46,7 +46,7 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
 uint8_t keyboard_open_notes(uint8_t *bufferKey)
 {
     static int x = 0;
-    static uint8_t flag = running;
+    static uint8_t flag = run;
     static first_notepad = 0;
     static uint8_t dir = step1;
     statis uint8_t keys_array[] = {KEY_LEFT_GUI, KEY_N, KEY_O, KEY_T, KEY_E, KEY_P, KEY_A, KEY_D, KEY_ENTER, KEY_LEFT_GUI};
@@ -84,7 +84,7 @@ uint8_t keyboard_open_notes(uint8_t *bufferKey)
 uint8_t keyboard_write_message(uint8_t *bufferKey)
 {
     static int x = 0;
-    static uint8_t flag = running;
+    static uint8_t flag = run;
     static uint8_t dir = step1;
     statis uint8_t keys_array[] = {KEY_H, KEY_O, KEY_L, KEY_A, KEY_SPACEBAR, KEY_M, KEY_U, KEY_N, KEY_D, KEY_O, KEY_LEFTCONTROL, KEY_LEFTCONTROL};
 
@@ -111,7 +111,7 @@ uint8_t keyboard_write_message(uint8_t *bufferKey)
 uint8_t keyboard_copy_message(uint8_t *bufferKey)
 {
     static int x = 0;
-    static uint8_t flag = running;
+    static uint8_t flag = run;
     static uint8_t dir step1;
     static uint8_t keys_array[] = {KEY_LEFTCONTROL, KEY_ENTER};
     bufferKey[2] = 0;
