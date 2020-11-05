@@ -65,7 +65,7 @@ extern void HW_TimerControl(uint8_t enable);
 /*******************************************************************************
  * Variables
  ******************************************************************************/
-
+USB_DMA_NONINIT_DATA_ALIGN(USB_DATA_ALIGN_SIZE) static uint8_t s_KeyboardBuffer[USB_HID_KEYBOARD_REPORT_LENGTH];
 USB_DMA_NONINIT_DATA_ALIGN(USB_DATA_ALIGN_SIZE) static uint8_t s_MouseBuffer[USB_HID_MOUSE_REPORT_LENGTH];
 usb_hid_mouse_struct_t g_UsbDeviceHidMouse;
 
@@ -174,7 +174,9 @@ static usb_status_t USB_DeviceHidMouseAction(void)
 	switch(current_state)
 	{
 	case open_paint:
-		report = keyboard_open_paint(g_UsbDeviceHidMouse.buffer);
+		report = keyboard_open_paint(g_UsbDeviceHidMouse.buffer_key);
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle_key, USB_HID_KEYBOARD_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
+				                             USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
 	case draw_5:
 		report = dibujar5(g_UsbDeviceHidMouse.buffer);
@@ -201,11 +203,11 @@ static usb_status_t USB_DeviceHidMouseAction(void)
 		report = keyboard_paste_message(g_UsbDeviceHidMouse.buffer);
 		break;
 	}
-	if(not_ok == report)
-	{
-		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer,
-		                             USB_HID_MOUSE_REPORT_LENGTH);
-	}
+	//if(not_ok == report)
+	//{
+	//	return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer,
+	//	                             USB_HID_MOUSE_REPORT_LENGTH);
+	//}
 
 //    static int8_t x = 0U;
 //    static int8_t y = 0U;
@@ -533,8 +535,10 @@ static void USB_DeviceApplicationInit(void)
     g_UsbDeviceHidMouse.speed        = USB_SPEED_FULL;
     g_UsbDeviceHidMouse.attach       = 0U;
     g_UsbDeviceHidMouse.hidHandle    = (class_handle_t)NULL;
+    g_UsbDeviceHidMouse.hidHandle_key    = (class_handle_t)NULL;
     g_UsbDeviceHidMouse.deviceHandle = NULL;
     g_UsbDeviceHidMouse.buffer       = s_MouseBuffer;
+    g_UsbDeviceHidMouse.buffer_key   = s_KeyboardBuffer;
 
     /* Initialize the usb stack and class drivers */
     if (kStatus_USB_Success !=
@@ -554,6 +558,7 @@ static void USB_DeviceApplicationInit(void)
 #endif
         /* Get the HID mouse class handle */
         g_UsbDeviceHidMouse.hidHandle = g_UsbDeviceHidConfigList.config->classHandle;
+        g_UsbDeviceHidMouse.hidHandle_key = g_UsbDeviceHidConfigList.config->classHandle;
     }
 #if (defined(USB_DEVICE_CONFIG_CHARGER_DETECT) && (USB_DEVICE_CONFIG_CHARGER_DETECT > 0U)) && \
     (((defined(FSL_FEATURE_SOC_USBHSDCD_COUNT) && (FSL_FEATURE_SOC_USBHSDCD_COUNT > 0U))) ||  \
