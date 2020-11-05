@@ -23,23 +23,29 @@ return ok;
 }
 uint8_t keyboard_open_paint(uint8_t *bufferKey)
 {
-    static int x = 0;
+    static int x = 0U;
     static uint8_t flag = not_ok;
     static uint8_t dir = START;
     static uint8_t keys_array[] = {KEY_RIGHT_GUI, KEY_P, KEY_A, KEY_I, KEY_N, KEY_T, KEY_ENTER};
 
-    bufferKey[2] = 0;
+    bufferKey[2] = 0x00U;
     if(flag == 0){
         x++;
         if ( x > 200){
-            bufferKey[2] = keys_array[dir];
-            dir ++;
-            x = 0;
-            if(dir == 8){
-                dir = START;
-                flag = ok;
-                bufferKey[2] = 0;
-            }
+        	if(dir == 0){
+        		bufferKey[3] = KEY_R;
+        	}
+        	else{
+        		bufferKey[3] = 0;
+        	}
+        	bufferKey[2] = keys_array[dir];
+        	dir++;
+        	x = 0;
+        	if(dir == 8){
+        		dir = 0;
+        		flag = 1;
+        		bufferKey[2] = 0X00U;
+        	}
         }
     }
     return flag;
