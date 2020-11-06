@@ -82,6 +82,7 @@ uint8_t dibujar5(uint8_t *hid_buffer)
 				if (g_x > 99U) {
 					dir++;
 					g_x = 0;
+					g_state++;
 				}
 				break;
 			default:
@@ -131,39 +132,53 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
 }
 uint8_t keyboard_open_notes(uint8_t *bufferKey)
 {
-    static int x = 0;
     static uint8_t flag = not_ok;
     static uint8_t first_notepad = 0;
     static uint8_t dir = START;
-    static uint8_t keys_array[] = {KEY_LEFT_GUI, KEY_N, KEY_O, KEY_T, KEY_E, KEY_P, KEY_A, KEY_D, KEY_ENTER, KEY_LEFT_GUI};
-    bufferKey[2] = 0;
+    static uint8_t keys_array[] = {START, MODIFERKEYS_LEFT_GUI, KEY_N, KEY_O,
+        							   KEY_T, KEY_E, KEY_P, KEY_A, KEY_D, KEY_ENTER, MODIFERKEYS_LEFT_GUI};
     if(flag == 0){
-        x++;
-        if(x > 200){
-            if(dir == START){
-                bufferKey[3] = KEY_R;
-            }
-            if(dir == 8){
-                if(first_notepad == 0){
-                    bufferKey[3] = KEY_LEFTARROW;
-                }
-                if(first_notepad == 1){
-                    bufferKey[3] = KEY_RIGHTARROW;
-                }
-            }
-            bufferKey[2] = keys_array[dir];
-            dir++;
-            x = 0;
-            if(dir == 12){
-                first_notepad++;
-                dir = START;
-                if(first_notepad == 2)
-                {
-                    flag = ok;
-                }
-                bufferKey = 0;
-            }
-        }
+		if(dir == START){
+			bufferKey[3] = keys_array[dir];
+			delay(KEYBOARD_DELAY);
+		}
+		else if(dir == 1){
+			bufferKey[1] = keys_array[dir];
+			bufferKey[3] = KEY_R;
+			delay(KEYBOARD_DELAY);
+		}
+		else{
+			bufferKey[1] = 0x00;
+			bufferKey[3] = keys_array[dir];
+			delay(KEYBOARD_DELAY);
+		}
+		if(dir == 10){
+			bufferKey[1] = keys_array[dir];
+			bufferKey[3] = KEY_LEFTARROW;
+			delay(KEYBOARD_DELAY);
+			//if(first_notepad == 0){
+			//	bufferKey[1] = MODIFERKEYS_LEFT_GUI;
+			//	bufferKey[3] = KEY_LEFTARROW;
+			//	delay(KEYBOARD_DELAY);
+			//}
+			//if(first_notepad == 1){
+			//	bufferKey[1] = MODIFERKEYS_LEFT_GUI;
+			//	bufferKey[3] = KEY_RIGHTARROW;
+			//	delay(KEYBOARD_DELAY);
+			//}
+		}
+		dir++;
+		if(dir == 12){
+			first_notepad++;
+			dir = START;
+			//if(first_notepad == 2)
+			//{
+			flag = ok;
+			//}
+			bufferKey[1] = 0x00;
+			bufferKey[3] = 0x00;
+		}
+
     }
     return flag;
 }

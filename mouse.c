@@ -193,7 +193,9 @@ static usb_status_t USB_DeviceHidMouseAction(void)
 						                             USB_HID_MOUSE_REPORT_LENGTH);
 		break;
 	case open_notes_left:
-		report = keyboard_open_notes(g_UsbDeviceHidMouse.buffer);
+		report = keyboard_open_notes(g_UsbDeviceHidMouse.buffer_key);
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
+						                             USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
 	case open_notes_right:
 		report = keyboard_open_notes(g_UsbDeviceHidMouse.buffer);
