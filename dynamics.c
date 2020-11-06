@@ -120,6 +120,7 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
 			dir = START;
 			flag = ok;
 			bufferKey[3] = 0X00U;
+			g_state++;
 		}
     }
     return flag;
