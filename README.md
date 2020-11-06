@@ -406,3 +406,8 @@ uint8_t keyboard_paste_message(uint8_t *bufferKey)
 	return flag;
 }
 ```
+### Dificultades dentro del desarrollo de la practica
+
+La primera dificultad que tuvimos fue al momento de juntar ambos descriptors tanto del mouse como del teclado y tener un solo endpoint, esto se soluciono estudiando más a detalle las estructuras de los mismos y finalmente agregar un segundo buffer enfocado en las teclas y dependiendo del dispositivo en uso era el buffer que utilizabamos junto con su report length.
+
+Una vez que logramos hacer funcionar ambos mouse y teclado con un solo endpoint el resto de dificultades estuvieron relacionadas con las máquinas de estados que estábamos utilizando para realizar las distintas tareas puesto que a veces nos faltaba utilizar un delay entre comandos para que no se contara como ruido debido a la velocidad de tecleo esperada por el ordenador. Finalmente se lograron llevar a cabo todos los objetivos planteados dentro del enunciado del problema.
