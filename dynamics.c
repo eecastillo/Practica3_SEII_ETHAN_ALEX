@@ -28,7 +28,7 @@ uint8_t dibujar5(uint8_t *hid_buffer)
     {
     	switch (dir)
 		{
-			case 0:
+			case STEP_1:
 				/* Move left */
 				hid_buffer[1] = 1U;
 				hid_buffer[2] = (uint8_t) (-2);
@@ -39,7 +39,7 @@ uint8_t dibujar5(uint8_t *hid_buffer)
 					g_x = 0;
 				}
 				break;
-			case 1:
+			case STEP_2:
 				/* Move down */
 				hid_buffer[1] = 1U;
 				hid_buffer[2] = 0U;
@@ -50,7 +50,7 @@ uint8_t dibujar5(uint8_t *hid_buffer)
 					g_y = 0;
 				}
 				break;
-			case 2:
+			case STEP_3:
 				/* Move right */
 				hid_buffer[1] = 1U;
 				hid_buffer[2] = 2U;
@@ -63,7 +63,7 @@ uint8_t dibujar5(uint8_t *hid_buffer)
 				}
 				break;
 
-			case 3:
+			case STEP_4:
 				/* Move down */
 				hid_buffer[1] = 1U;
 				hid_buffer[2] = 0U;
@@ -74,7 +74,7 @@ uint8_t dibujar5(uint8_t *hid_buffer)
 					g_y = 0;
 				}
 				break;
-			case 4:
+			case STEP_5:
 				/* Move left */
 				hid_buffer[1] = 1U;
 				hid_buffer[2] = (uint8_t) (-2);

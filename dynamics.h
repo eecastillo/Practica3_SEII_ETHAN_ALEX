@@ -267,6 +267,7 @@ typedef enum{
 
 typedef enum{not_ok, ok} ready_t;
 typedef enum{STATE_MOVE, STATE_CLICK, STATE_RELEASE} mouse_state;
+typedef enum{STEP_1, STEP_2, STEP_3, STEP_4, STEP_5} draw_steps;
 
 uint8_t dibujar5(uint8_t *hid_buffer);
 uint8_t mouseRight_and_click(uint8_t *hid_buffer);
