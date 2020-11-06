@@ -311,7 +311,7 @@ uint8_t keyboard_copy_message(uint8_t *bufferKey)
 {
     static uint8_t flag = not_ok;
     static uint8_t dir = START;
-    static uint8_t keys_array[] = {START,KEY_LEFTCONTROL};
+    static uint8_t keys_array[] = {START,MODIFERKEYS_LEFT_CTRL};
     bufferKey[2] = 0;
     if(flag == 0){
     	if(dir == START){
@@ -325,7 +325,7 @@ uint8_t keyboard_copy_message(uint8_t *bufferKey)
         }
 
 		dir++;
-		if(dir == 2)
+		if(dir == 3)
 		{
 			bufferKey[3] = 0X00U;
 			g_state++;
@@ -338,7 +338,7 @@ uint8_t keyboard_paste_message(uint8_t *bufferKey)
 {
 	static uint8_t flag = not_ok;
 	    static uint8_t dir = START;
-	    static uint8_t keys_array[] = {START,KEY_LEFTCONTROL};
+	    static uint8_t keys_array[] = {START,MODIFERKEYS_LEFT_CTRL};
 	    bufferKey[2] = 0;
 	    if(flag == 0){
 	    	if(dir == START){
@@ -352,7 +352,7 @@ uint8_t keyboard_paste_message(uint8_t *bufferKey)
 	        }
 
 			dir++;
-			if(dir == 2)
+			if(dir == 3)
 			{
 				bufferKey[3] = 0X00U;
 				g_state++;
@@ -366,7 +366,7 @@ uint8_t keyboard_select_all(uint8_t *bufferKey)
 {
 	static uint8_t flag = not_ok;
 	    static uint8_t dir = START;
-	    static uint8_t keys_array[] = {START,KEY_LEFTCONTROL};
+	    static uint8_t keys_array[] = {START,MODIFERKEYS_LEFT_CTRL, START};
 	    bufferKey[2] = 0;
 	    if(flag == 0){
 	    	if(dir == START){
@@ -378,12 +378,15 @@ uint8_t keyboard_select_all(uint8_t *bufferKey)
 				bufferKey[3] = KEY_A;
 				delay(KEYBOARD_DELAY);
 	        }
-
+	    	else{
+	    		bufferKey[1] = 0x00;
+	    		bufferKey[3] = keys_array[dir];
+	    	}
 			dir++;
-			if(dir == 2)
+			if(dir == 3)
 			{
 				bufferKey[3] = 0X00U;
-				g_state++;
+				//g_state++;
 				delay(KEYBOARD_DELAY);
 			}
 	    }
