@@ -21,11 +21,11 @@
 #define USB_DEVICE_PROTOCOL (0x00U)
 
 #define USB_DEVICE_MAX_POWER (0x32U)
-#define USB_HID_KEYBOARD_REPORT_LENGTH (0x08U)
+
 
 #define USB_DESCRIPTOR_LENGTH_CONFIGURATION_ALL (sizeof(g_UsbDeviceConfigurationDescriptor))
 #define USB_DESCRIPTOR_LENGTH_HID_MOUSE_REPORT (sizeof(g_UsbDeviceHidMouseReportDescriptor))
-#define USB_DESCRIPTOR_LENGTH_HID_KEYBOARD_REPORT (sizeof(g_UsbDeviceHidKeyboardReportDescriptor))
+
 #define USB_DESCRIPTOR_LENGTH_HID (9U)
 #define USB_DESCRIPTOR_LENGTH_STRING0 (sizeof(g_UsbDeviceString0))
 #define USB_DESCRIPTOR_LENGTH_STRING1 (sizeof(g_UsbDeviceString1))
@@ -42,8 +42,7 @@
 #define USB_HID_MOUSE_ENDPOINT_COUNT (1U)
 #define USB_HID_MOUSE_INTERFACE_INDEX (0U)
 #define USB_HID_MOUSE_ENDPOINT_IN (1U)
-#define USB_HID_KEYBOARD_ENDPOINT_IN (2U)
-#define USB_HID_KEYBOARD_INTERFACE_INDEX (1U)
+
 
 #define USB_HID_MOUSE_CLASS (0x03U)
 #define USB_HID_MOUSE_SUBCLASS (0x01U)

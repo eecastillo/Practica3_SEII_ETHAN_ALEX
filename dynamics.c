@@ -5,9 +5,16 @@
  *      Author: eduar
  */
 #include "dynamics.h"
-
+#define KEYBOARD_DELAY 2000000U
 
 estados_t g_state = open_paint;
+
+static void delay(uint32_t max)
+{
+	uint32_t delay_counter = 0;
+	while (max > delay_counter)
+		delay_counter++;
+}
 
 uint8_t dibujar5(uint8_t *hid_buffer)
 {
@@ -26,27 +33,29 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
     static int x = 0U;
     static uint8_t flag = not_ok;
     static uint8_t dir = START;
-    static uint8_t keys_array[] = {KEY_RIGHT_GUI, KEY_P, KEY_A, KEY_I, KEY_N, KEY_T, KEY_ENTER};
-
-    bufferKey[2] = 0x00U;
-    if(flag == 0){
+    static uint8_t keys_array[] = {START, MODIFERKEYS_LEFT_GUI, KEY_M, KEY_S,
+    							   KEY_P, KEY_A, KEY_I, KEY_N, KEY_T, KEY_ENTER};
+    if(flag == not_ok){
         x++;
-        if ( x > 200){
-        	if(dir == 0){
-        		bufferKey[3] = KEY_R;
-        	}
-        	else{
-        		bufferKey[3] = 0;
-        	}
-        	bufferKey[2] = keys_array[dir];
-        	dir++;
-        	x = 0;
-        	if(dir == 8){
-        		dir = 0;
-        		flag = 1;
-        		bufferKey[2] = 0X00U;
-        	}
-        }
+		if(dir == START){
+			bufferKey[3] = keys_array[dir];
+			delay(KEYBOARD_DELAY);
+		}
+		else if(dir == CONTROL_BYTE){
+			bufferKey[1] = keys_array[dir];
+			bufferKey[3] = KEY_R;
+		}
+		else{
+			bufferKey[3] = keys_array[dir];
+			delay(KEYBOARD_DELAY);
+		}
+		dir++;
+		x = 0;
+		if(dir == ENTER){
+			dir = START;
+			flag = ok;
+			bufferKey[3] = 0X00U;
+		}
     }
     return flag;
 }

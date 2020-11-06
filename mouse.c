@@ -170,12 +170,21 @@ void USB_DeviceTaskFn(void *deviceHandle)
 static usb_status_t USB_DeviceHidMouseAction(void)
 {
 	estados_t current_state = get_program_state();
+	/*Refreshes the mouse and keyboard buffers on the specific bytes used*/
+	g_UsbDeviceHidMouse.buffer_key[0] = 0x02U; /*REFRESHES KEYBOARD ID BUFFER*/
+	g_UsbDeviceHidMouse.buffer_key[1] = 0x00U; /*REFRESHES KEYBOARD MODIFIER BUFFER*/
+	g_UsbDeviceHidMouse.buffer_key[3] = 0x00U; /*REFRESHES KEYBOARD 1ST BYTE BUFFER*/
+	g_UsbDeviceHidMouse.buffer_key[4] = 0x00U; /*REFRESHES KEYBOARD 2ND BYTE BUFFER*/
+	g_UsbDeviceHidMouse.buffer[0] = 0x01U; /*REFRESHES MOUSE ID BUFFER*/
+	g_UsbDeviceHidMouse.buffer[1] = 0x00U; /*REFRESHES MOUSE BUTTON BUFFER*/
+	g_UsbDeviceHidMouse.buffer[2] = 0x00U;/*REFRESHES MOUSE X BUFFER*/
+	g_UsbDeviceHidMouse.buffer[3] = 0x00U;/*REFRESHES MOUSE Y BUFFER*/
 	ready_t report;
 	switch(current_state)
 	{
 	case open_paint:
 		report = keyboard_open_paint(g_UsbDeviceHidMouse.buffer_key);
-		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle_key, USB_HID_KEYBOARD_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
 				                             USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
 	case draw_5:
@@ -344,8 +353,7 @@ static usb_status_t USB_DeviceCallback(usb_device_handle handle, uint32_t event,
 
 #if (defined(USB_DEVICE_CONFIG_LPCIP3511FS) && (USB_DEVICE_CONFIG_LPCIP3511FS > 0U))
 #else
-            /**Add delay*/
-            SDK_DelayAtLeastUs(5000, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
+
             USB_DeviceRun(g_UsbDeviceHidMouse.deviceHandle);
 #endif
 #endif
@@ -535,7 +543,6 @@ static void USB_DeviceApplicationInit(void)
     g_UsbDeviceHidMouse.speed        = USB_SPEED_FULL;
     g_UsbDeviceHidMouse.attach       = 0U;
     g_UsbDeviceHidMouse.hidHandle    = (class_handle_t)NULL;
-    g_UsbDeviceHidMouse.hidHandle_key    = (class_handle_t)NULL;
     g_UsbDeviceHidMouse.deviceHandle = NULL;
     g_UsbDeviceHidMouse.buffer       = s_MouseBuffer;
     g_UsbDeviceHidMouse.buffer_key   = s_KeyboardBuffer;
@@ -558,7 +565,7 @@ static void USB_DeviceApplicationInit(void)
 #endif
         /* Get the HID mouse class handle */
         g_UsbDeviceHidMouse.hidHandle = g_UsbDeviceHidConfigList.config->classHandle;
-        g_UsbDeviceHidMouse.hidHandle_key = g_UsbDeviceHidConfigList.config->classHandle;
+
     }
 #if (defined(USB_DEVICE_CONFIG_CHARGER_DETECT) && (USB_DEVICE_CONFIG_CHARGER_DETECT > 0U)) && \
     (((defined(FSL_FEATURE_SOC_USBHSDCD_COUNT) && (FSL_FEATURE_SOC_USBHSDCD_COUNT > 0U))) ||  \
@@ -572,14 +579,12 @@ static void USB_DeviceApplicationInit(void)
     /*USB_DeviceRun could not be called here to avoid DP/DM confliction between DCD function and USB function in case
       DCD is enabled. Instead, USB_DeviceRun should be called after the DCD is finished immediately*/
 #if (defined(USB_DEVICE_CONFIG_LPCIP3511FS) && (USB_DEVICE_CONFIG_LPCIP3511FS > 0U))
-    /**Add delay*/
-    SDK_DelayAtLeastUs(5000, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
+
     /* Start USB device HID mouse */
     USB_DeviceRun(g_UsbDeviceHidMouse.deviceHandle);
 #endif
 #else
-    /**Add delay*/
-    SDK_DelayAtLeastUs(5000, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
+
     /* Start USB device HID mouse */
     USB_DeviceRun(g_UsbDeviceHidMouse.deviceHandle);
 #endif

@@ -102,6 +102,7 @@ uint8_t g_UsbDeviceHidMouseReportDescriptor[] = {
     0x05U, 0x01U, /* Usage Page (Generic Desktop)*/
     0x09U, 0x02U, /* Usage (Mouse) */
     0xA1U, 0x01U, /* Collection (Application) */
+    0x85U, 0x01U, /* Report ID */
     0x09U, 0x01U, /* Usage (Pointer) */
 
     0xA1U, 0x00U, /* Collection (Physical) */
@@ -132,18 +133,20 @@ uint8_t g_UsbDeviceHidMouseReportDescriptor[] = {
     0x81U, 0x06U, /* Input(Data, Variable, Relative), Three position bytes (X & Y & Z)*/
     0xC0U,        /* End collection, Close Pointer collection*/
     0xC0U,         /* End collection, Close Mouse collection */
+    /*KEYBOARD*/
 	0x05U, 0x01U, /* Usage Page (Generic Desktop)*/
-	/*KEYBOARD*/
+
 	0x09U, 0x06U, /* Usage (Keyboard) */
 	0xA1U, 0x01U, /* Collection (Application) */
-	0x85U, 0x02U, /*Report ID*/
+	0x85U, 0x02U, /* Report ID */
+	0x75U, 0x01U, /* Report Size (1U) */
+	0x95U, 0x08U, /* Report Count (8U) */
 	0x05U, 0x07U, /* Usage Page (Key Codes) */
-	0x19U, 0xE0U, /* Usage Minimum (224) */
-	0x29U, 0xE7U, /* Usage Maximum (231) */
-	0x15U, 0x00U, /* Logical Minimum (0) */
-	0x25U, 0x01U, /* Logical Maximum (1) */
-	0x75U, 0x01U, /* Report Size (1) */
-	0x95U, 0x08U, /* Report Count (8) */
+	0x19U, 0xE0U, /* Usage Minimum (224U) */
+	0x29U, 0xE7U, /* Usage Maximum (231U) */
+
+	0x15U, 0x00U, /* Logical Minimum (0U) */
+	0x25U, 0x01U, /* Logical Maximum (1U) */
 	0x81U, 0x02U, /* Input(Data, Variable, Absolute) Modifier byte */
 	0x95U, 0x01U, /* Report Count (1U) */
 	0x75U, 0x08U, /* Report Size (8U) */

@@ -38,7 +38,8 @@
 #define USB_DEVICE_INTERRUPT_PRIORITY (3U)
 #endif
 
-#define USB_HID_MOUSE_REPORT_LENGTH (0x04U)
+#define USB_HID_MOUSE_REPORT_LENGTH 	(0x05U)
+#define USB_HID_KEYBOARD_REPORT_LENGTH 	(0x09U)
 #if (defined(USB_DEVICE_CONFIG_CHARGER_DETECT) && (USB_DEVICE_CONFIG_CHARGER_DETECT > 0U))
 /*! @brief USB DCD charging detect status */
 typedef enum _usb_device_dcd_dev_status
@@ -60,7 +61,7 @@ typedef struct _usb_hid_mouse_struct
 #endif
     usb_device_handle deviceHandle;
     class_handle_t hidHandle;
-    class_handle_t hidHandle_key;
+
     TaskHandle_t applicationTaskHandle;
     TaskHandle_t deviceTaskHandle;
     uint8_t *buffer;
