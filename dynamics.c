@@ -8,6 +8,8 @@
 #define KEYBOARD_DELAY 2000000U
 
 estados_t g_state = open_paint;
+static int8_t g_x = 0U;
+static int8_t g_y = 0U;
 
 static void delay(uint32_t max)
 {
@@ -18,7 +20,70 @@ static void delay(uint32_t max)
 
 uint8_t dibujar5(uint8_t *hid_buffer)
 {
-return ok;
+    static uint8_t flag = not_ok;
+    static uint8_t dir = START;
+
+    if(flag == not_ok)
+    {
+    	switch (dir)
+		{
+			case 0:
+				/* Move left */
+				MouseOrKeybuffer[0] = 1U;
+				MouseOrKeybuffer[2] = (uint8_t) (-2);
+				MouseOrKeybuffer[3] = 0U;
+				g_x--;
+				if (g_x < 2U) {
+					dir++;
+				}
+				break;
+			case 1:
+				/* Move down */
+				MouseOrKeybuffer[0] = 1U;
+				MouseOrKeybuffer[2] = 0U;
+				MouseOrKeybuffer[3] = 2U;
+				g_y++;
+				if (g_y > 99U) {
+					dir++;
+				}
+				break;
+			case 2:
+				/* Move right */
+				MouseOrKeybuffer[0] = 1U;
+				MouseOrKeybuffer[2] = 2U;
+				MouseOrKeybuffer[3] = 0U;
+
+				g_x++;
+				if (g_x > 99U) {
+					dir++;
+				}
+				break;
+
+			case 3:
+				/* Move down */
+				MouseOrKeybuffer[0] = 1U;
+				MouseOrKeybuffer[2] = 0U;
+				MouseOrKeybuffer[3] = 2U;
+				g_y++;
+				if (g_y > 99U) {
+					dir++;
+				}
+				break;
+			case 4:
+				/* Move left */
+				MouseOrKeybuffer[0] = 1U;
+				MouseOrKeybuffer[2] = (uint8_t) (-2);
+				MouseOrKeybuffer[3] = 0U;
+				g_x--;
+				if (g_x < 2U) {
+					dir++;
+				}
+				break;
+			default:
+				break;
+			}
+    }
+    return flag;
 }
 uint8_t mouseRight_and_click(uint8_t *hid_buffer)
 {
@@ -53,6 +118,7 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
 			dir = START;
 			flag = ok;
 			bufferKey[3] = 0X00U;
+			g_state++;
 		}
     }
     return flag;
