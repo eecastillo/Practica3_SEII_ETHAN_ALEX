@@ -29,54 +29,59 @@ uint8_t dibujar5(uint8_t *hid_buffer)
 		{
 			case 0:
 				/* Move left */
-				MouseOrKeybuffer[0] = 1U;
-				MouseOrKeybuffer[2] = (uint8_t) (-2);
-				MouseOrKeybuffer[3] = 0U;
-				g_x--;
-				if (g_x < 2U) {
+				hid_buffer[1] = 1U;
+				hid_buffer[2] = (uint8_t) (-2);
+				hid_buffer[3] = 0U;
+				g_x++;
+				if (g_x > 99U) {
 					dir++;
+					g_x = 0;
 				}
 				break;
 			case 1:
 				/* Move down */
-				MouseOrKeybuffer[0] = 1U;
-				MouseOrKeybuffer[2] = 0U;
-				MouseOrKeybuffer[3] = 2U;
+				hid_buffer[1] = 1U;
+				hid_buffer[2] = 0U;
+				hid_buffer[3] = 2U;
 				g_y++;
 				if (g_y > 99U) {
 					dir++;
+					g_y = 0;
 				}
 				break;
 			case 2:
 				/* Move right */
-				MouseOrKeybuffer[0] = 1U;
-				MouseOrKeybuffer[2] = 2U;
-				MouseOrKeybuffer[3] = 0U;
+				hid_buffer[1] = 1U;
+				hid_buffer[2] = 2U;
+				hid_buffer[3] = 0U;
 
 				g_x++;
 				if (g_x > 99U) {
 					dir++;
+					g_x = 0;
 				}
 				break;
 
 			case 3:
 				/* Move down */
-				MouseOrKeybuffer[0] = 1U;
-				MouseOrKeybuffer[2] = 0U;
-				MouseOrKeybuffer[3] = 2U;
+				hid_buffer[1] = 1U;
+				hid_buffer[2] = 0U;
+				hid_buffer[3] = 2U;
 				g_y++;
 				if (g_y > 99U) {
 					dir++;
+					g_y = 0;
 				}
 				break;
 			case 4:
 				/* Move left */
-				MouseOrKeybuffer[0] = 1U;
-				MouseOrKeybuffer[2] = (uint8_t) (-2);
-				MouseOrKeybuffer[3] = 0U;
-				g_x--;
-				if (g_x < 2U) {
+				hid_buffer[1] = 1U;
+				hid_buffer[2] = (uint8_t) (-2);
+				hid_buffer[3] = 0U;
+				g_x++;
+				if (g_x > 99U) {
 					dir++;
+					g_x = 0;
 				}
 				break;
 			default:
@@ -119,6 +124,7 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
 			flag = ok;
 			bufferKey[3] = 0X00U;
 			g_state++;
+			delay(KEYBOARD_DELAY);
 		}
     }
     return flag;
