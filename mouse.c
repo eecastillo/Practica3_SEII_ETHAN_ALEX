@@ -212,6 +212,12 @@ static usb_status_t USB_DeviceHidMouseAction(void)
 		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
 										                     USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
+	case select_all:
+		report = keyboard_select_all(g_UsbDeviceHidMouse.buffer_key);
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
+										                     USB_HID_KEYBOARD_REPORT_LENGTH);
+
+		break;
 	case copy_txt:
 		report = keyboard_copy_message(g_UsbDeviceHidMouse.buffer_key);
 		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
@@ -228,6 +234,15 @@ static usb_status_t USB_DeviceHidMouseAction(void)
 										                     USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
 	}
+	/*Refreshes the mouse and keyboard buffers on the specific bytes used*/
+		g_UsbDeviceHidMouse.buffer_key[0] = 0x02U; /*REFRESHES KEYBOARD ID BUFFER*/
+		g_UsbDeviceHidMouse.buffer_key[1] = 0x00U; /*REFRESHES KEYBOARD MODIFIER BUFFER*/
+		g_UsbDeviceHidMouse.buffer_key[3] = 0x00U; /*REFRESHES KEYBOARD 1ST BYTE BUFFER*/
+		g_UsbDeviceHidMouse.buffer_key[4] = 0x00U; /*REFRESHES KEYBOARD 2ND BYTE BUFFER*/
+		g_UsbDeviceHidMouse.buffer[0] = 0x01U; /*REFRESHES MOUSE ID BUFFER*/
+		g_UsbDeviceHidMouse.buffer[1] = 0x00U; /*REFRESHES MOUSE BUTTON BUFFER*/
+		g_UsbDeviceHidMouse.buffer[2] = 0x00U;/*REFRESHES MOUSE X BUFFER*/
+		g_UsbDeviceHidMouse.buffer[3] = 0x00U;/*REFRESHES MOUSE Y BUFFER*/
 }
 
 /* The hid class callback */
