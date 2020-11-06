@@ -9,8 +9,8 @@
 #define MOUSE_DELAY 1000000U
 
 estados_t g_state = open_paint;
-static int8_t g_x = 0U;
-static int8_t g_y = 0U;
+static int16_t g_x = 0U;
+static int16_t g_y = 0U;
 
 static void delay(uint32_t max)
 {
@@ -110,7 +110,7 @@ uint8_t mouseRight_and_click(uint8_t *hid_buffer)
 					hid_buffer[2] = 2U;
 					hid_buffer[3] = 0U;
 					g_x++;
-					if (g_x > 200U) {
+					if (g_x > 500U) {
 						dir++;
 						g_x = 0;
 					}
@@ -309,36 +309,39 @@ uint8_t keyboard_write_message(uint8_t *bufferKey)
 }
 uint8_t keyboard_copy_message(uint8_t *bufferKey)
 {
-    static uint8_t flag = not_ok;
+	static uint8_t flag = not_ok;
     static uint8_t dir = START;
-    static uint8_t keys_array[] = {START,MODIFERKEYS_LEFT_CTRL};
-    bufferKey[2] = 0;
-    if(flag == 0){
-    	if(dir == START){
-			bufferKey[3] = keys_array[dir];
-			delay(KEYBOARD_DELAY);
-		}
-    	else if(dir == CONTROL_BYTE){
-    		bufferKey[1] = keys_array[dir];
-			bufferKey[3] = KEY_C;
-			delay(KEYBOARD_DELAY);
-        }
-
-		dir++;
-		if(dir == 3)
-		{
-			bufferKey[3] = 0X00U;
-			g_state++;
-			delay(KEYBOARD_DELAY);
-		}
-    }
-    return flag;
+	    static uint8_t keys_array[] = {START,MODIFERKEYS_LEFT_CTRL, START};
+	    bufferKey[2] = 0;
+	    if(flag == 0){
+	    	if(dir == START){
+				bufferKey[3] = keys_array[dir];
+				delay(KEYBOARD_DELAY);
+			}
+	    	else if(dir == CONTROL_BYTE){
+	    		bufferKey[1] = keys_array[dir];
+				bufferKey[3] = KEY_C;
+				delay(KEYBOARD_DELAY);
+	        }
+	    	else{
+	    		bufferKey[1] = 0x00;
+	    		bufferKey[3] = keys_array[dir];
+	    	}
+			dir++;
+			if(dir == 3)
+			{
+				bufferKey[3] = 0X00U;
+				g_state++;
+				delay(KEYBOARD_DELAY);
+			}
+	    }
+	    return flag;
 }
 uint8_t keyboard_paste_message(uint8_t *bufferKey)
 {
 	static uint8_t flag = not_ok;
-	    static uint8_t dir = START;
-	    static uint8_t keys_array[] = {START,MODIFERKEYS_LEFT_CTRL};
+    static uint8_t dir = START;
+	    static uint8_t keys_array[] = {START,MODIFERKEYS_LEFT_CTRL, START};
 	    bufferKey[2] = 0;
 	    if(flag == 0){
 	    	if(dir == START){
@@ -350,7 +353,10 @@ uint8_t keyboard_paste_message(uint8_t *bufferKey)
 				bufferKey[3] = KEY_V;
 				delay(KEYBOARD_DELAY);
 	        }
-
+	    	else{
+	    		bufferKey[1] = 0x00;
+	    		bufferKey[3] = keys_array[dir];
+	    	}
 			dir++;
 			if(dir == 3)
 			{
@@ -386,7 +392,7 @@ uint8_t keyboard_select_all(uint8_t *bufferKey)
 			if(dir == 3)
 			{
 				bufferKey[3] = 0X00U;
-				//g_state++;
+				g_state++;
 				delay(KEYBOARD_DELAY);
 			}
 	    }

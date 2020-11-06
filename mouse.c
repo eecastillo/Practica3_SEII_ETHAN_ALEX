@@ -233,6 +233,8 @@ static usb_status_t USB_DeviceHidMouseAction(void)
 		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
 										                     USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
+	case finish:
+		break;
 	}
 	/*Refreshes the mouse and keyboard buffers on the specific bytes used*/
 		g_UsbDeviceHidMouse.buffer_key[0] = 0x02U; /*REFRESHES KEYBOARD ID BUFFER*/
