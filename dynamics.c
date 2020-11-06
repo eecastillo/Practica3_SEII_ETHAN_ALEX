@@ -30,13 +30,11 @@ return ok;
 }
 uint8_t keyboard_open_paint(uint8_t *bufferKey)
 {
-    static int x = 0U;
     static uint8_t flag = not_ok;
     static uint8_t dir = START;
     static uint8_t keys_array[] = {START, MODIFERKEYS_LEFT_GUI, KEY_M, KEY_S,
     							   KEY_P, KEY_A, KEY_I, KEY_N, KEY_T, KEY_ENTER};
     if(flag == not_ok){
-        x++;
 		if(dir == START){
 			bufferKey[3] = keys_array[dir];
 			delay(KEYBOARD_DELAY);
@@ -44,13 +42,13 @@ uint8_t keyboard_open_paint(uint8_t *bufferKey)
 		else if(dir == CONTROL_BYTE){
 			bufferKey[1] = keys_array[dir];
 			bufferKey[3] = KEY_R;
+			delay(KEYBOARD_DELAY);
 		}
 		else{
 			bufferKey[3] = keys_array[dir];
 			delay(KEYBOARD_DELAY);
 		}
 		dir++;
-		x = 0;
 		if(dir == ENTER){
 			dir = START;
 			flag = ok;
