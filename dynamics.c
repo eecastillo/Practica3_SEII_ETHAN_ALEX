@@ -110,7 +110,7 @@ uint8_t mouseRight_and_click(uint8_t *hid_buffer)
 					hid_buffer[2] = 2U;
 					hid_buffer[3] = 0U;
 					g_x++;
-					if (g_x > 99U) {
+					if (g_x > 200U) {
 						dir++;
 						g_x = 0;
 					}
@@ -150,7 +150,7 @@ uint8_t mouseLeft_and_click(uint8_t *hid_buffer)
 						hid_buffer[2] = (uint8_t) (-2);
 						hid_buffer[3] = 0U;
 						g_x++;
-						if (g_x > 200U) {
+						if (g_x > 99U) {
 							dir++;
 							g_x = 0;
 						}
@@ -313,23 +313,19 @@ uint8_t keyboard_copy_message(uint8_t *bufferKey)
     static int x = 0;
     static uint8_t flag = not_ok;
     static uint8_t dir = START;
-    static uint8_t keys_array[] = {KEY_LEFTCONTROL, KEY_ENTER};
+    static uint8_t keys_array[] = {START,KEY_LEFTCONTROL, KEY_ENTER};
     bufferKey[2] = 0;
     if(flag == 0){
-        x++;
-        if(x > 200){
-            bufferKey[2] = keys_array[dir];
-            dir++;
-            x = 0;
-            if(dir == 1){
-                bufferKey[3] = KEY_V;
-            }
-            if(dir == 3){
-                dir = START;
-                flag = ok;
-                bufferKey[2] = 0;
-            }
+    	if(dir == START){
+			bufferKey[3] = keys_array[dir];
+			delay(KEYBOARD_DELAY);
+		}
+    	else if(dir == CONTROL_BYTE){
+    		bufferKey[1] = keys_array[dir];
+			bufferKey[3] = KEY_C;
+			delay(KEYBOARD_DELAY);
         }
+		dir++;
     }
     return flag;
 }
