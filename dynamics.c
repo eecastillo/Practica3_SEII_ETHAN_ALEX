@@ -283,28 +283,27 @@ uint8_t keyboard_open_notes_right(uint8_t *bufferKey)
 
 uint8_t keyboard_write_message(uint8_t *bufferKey)
 {
-    static int x = 0;
     static uint8_t flag = not_ok;
     static uint8_t dir = START;
-    static uint8_t keys_array[] = {KEY_H, KEY_O, KEY_L, KEY_A, KEY_SPACEBAR, KEY_M, KEY_U, KEY_N, KEY_D, KEY_O, KEY_LEFTCONTROL, KEY_LEFTCONTROL};
-
-    bufferKey[2] = 0;
-    if(flag == 0){
-        x++;
-        if(x > 200){
-            bufferKey[2] = keys_array[dir];
-            if(dir == 11){
-                bufferKey[3] = KEY_A;
-            }
-            if(dir == 12){
-                bufferKey[3] = KEY_C;
-            }
-            if(dir == 13){
-                dir = START;
-                flag = ok;
-                bufferKey[2] = 0;
-            }
-        }
+    static uint8_t keys_array[] = {START, KEY_H, KEY_O, KEY_L, KEY_A, KEY_SPACEBAR,
+    		                       KEY_M, KEY_U, KEY_N, KEY_D, KEY_O};
+    if(flag == not_ok){
+		if(dir == START){
+			bufferKey[3] = keys_array[dir];
+			delay(KEYBOARD_DELAY);
+		}
+		else{
+			bufferKey[3] = keys_array[dir];
+			delay(KEYBOARD_DELAY);
+		}
+		dir++;
+		if(dir == 12){
+			dir = START;
+			flag = ok;
+			bufferKey[3] = 0X00U;
+			g_state++;
+			delay(KEYBOARD_DELAY);
+		}
     }
     return flag;
 }
