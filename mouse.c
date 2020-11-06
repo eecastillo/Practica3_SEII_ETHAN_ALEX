@@ -204,18 +204,28 @@ static usb_status_t USB_DeviceHidMouseAction(void)
 		break;
 	case mouse_left:
 		report = mouseLeft_and_click(g_UsbDeviceHidMouse.buffer);
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer,
+								                             USB_HID_MOUSE_REPORT_LENGTH);
 		break;
 	case hello_world:
-		report = keyboard_write_message(g_UsbDeviceHidMouse.buffer);
+		report = keyboard_write_message(g_UsbDeviceHidMouse.buffer_key);
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
+										                     USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
 	case copy_txt:
-		report = keyboard_copy_message(g_UsbDeviceHidMouse.buffer);
+		report = keyboard_copy_message(g_UsbDeviceHidMouse.buffer_key);
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
+										                     USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
 	case mouse_right:
 		report = mouseRight_and_click(g_UsbDeviceHidMouse.buffer);
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer,
+								                             USB_HID_MOUSE_REPORT_LENGTH);
 		break;
 	case paste_txt:
-		report = keyboard_paste_message(g_UsbDeviceHidMouse.buffer);
+		report = keyboard_paste_message(g_UsbDeviceHidMouse.buffer_key);
+		return USB_DeviceHidSend(g_UsbDeviceHidMouse.hidHandle, USB_HID_MOUSE_ENDPOINT_IN, g_UsbDeviceHidMouse.buffer_key,
+										                     USB_HID_KEYBOARD_REPORT_LENGTH);
 		break;
 	}
 }
