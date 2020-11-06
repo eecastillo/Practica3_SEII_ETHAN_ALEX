@@ -236,15 +236,7 @@ static usb_status_t USB_DeviceHidMouseAction(void)
 	case finish:
 		break;
 	}
-	/*Refreshes the mouse and keyboard buffers on the specific bytes used*/
-		g_UsbDeviceHidMouse.buffer_key[0] = 0x02U; /*REFRESHES KEYBOARD ID BUFFER*/
-		g_UsbDeviceHidMouse.buffer_key[1] = 0x00U; /*REFRESHES KEYBOARD MODIFIER BUFFER*/
-		g_UsbDeviceHidMouse.buffer_key[3] = 0x00U; /*REFRESHES KEYBOARD 1ST BYTE BUFFER*/
-		g_UsbDeviceHidMouse.buffer_key[4] = 0x00U; /*REFRESHES KEYBOARD 2ND BYTE BUFFER*/
-		g_UsbDeviceHidMouse.buffer[0] = 0x01U; /*REFRESHES MOUSE ID BUFFER*/
-		g_UsbDeviceHidMouse.buffer[1] = 0x00U; /*REFRESHES MOUSE BUTTON BUFFER*/
-		g_UsbDeviceHidMouse.buffer[2] = 0x00U;/*REFRESHES MOUSE X BUFFER*/
-		g_UsbDeviceHidMouse.buffer[3] = 0x00U;/*REFRESHES MOUSE Y BUFFER*/
+	return kStatus_USB_Success;
 }
 
 /* The hid class callback */

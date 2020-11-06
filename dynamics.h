@@ -241,10 +241,13 @@
 #define MODIFERKEYS_RIGHT_ALT 0x40U
 #define MODIFERKEYS_RIGHT_GUI 0x80U
 
-/* Aux defines */
+/* Variables Auxiliares */
 #define START 0x00
 #define CONTROL_BYTE 0x01
 #define ENTER 11U
+#define SECOND_CTRL_BYTE 10U
+#define FINISH 12U
+#define FINISH_CONTROL 0x03
 
 
 
@@ -263,6 +266,7 @@ typedef enum{
 }estados_t;
 
 typedef enum{not_ok, ok} ready_t;
+typedef enum{STATE_MOVE, STATE_CLICK, STATE_RELEASE} mouse_state;
 
 uint8_t dibujar5(uint8_t *hid_buffer);
 uint8_t mouseRight_and_click(uint8_t *hid_buffer);
